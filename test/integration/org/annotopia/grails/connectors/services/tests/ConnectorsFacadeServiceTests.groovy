@@ -23,6 +23,7 @@ package org.annotopia.grails.connectors.services.tests;
 import static org.junit.Assert.*
 import grails.test.mixin.TestFor
 
+import org.annotopia.grails.connectors.IConnectorsParameters
 import org.annotopia.grails.connectors.services.ConnectorsFacadeService
 import org.junit.Test
 
@@ -32,7 +33,10 @@ import org.junit.Test
 @TestFor(ConnectorsFacadeService)
 class ConnectorsFacadeServiceTests extends GroovyTestCase {
 
+	def grailsApplication = new org.codehaus.groovy.grails.commons.DefaultGrailsApplication()
+	
 	def connectorsFacadeService;
+	def configAccessService
 	
 	private LOG_SEPARATOR() {
 		logSeparator('=' as char);
@@ -56,7 +60,9 @@ class ConnectorsFacadeServiceTests extends GroovyTestCase {
 	@Test
 	public void testListVocabularies() {
 		log.info 'TEST ------------- testListVocabularies -------------'
-		def vocabularies = connectorsFacadeService.listVocabularies("cnBioPortalConnector", new HashMap());
+		HashMap parameters = new HashMap();
+		parameters.put(IConnectorsParameters.APY_KEY, configAccessService.getAsString("annotopia.plugins.connector.bioportal.apikey"))
+		def vocabularies = connectorsFacadeService.listVocabularies("cnBioPortalConnector", parameters);
 		assertNotNull vocabularies;
 	}
 
