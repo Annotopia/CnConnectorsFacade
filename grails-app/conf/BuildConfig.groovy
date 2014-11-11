@@ -1,6 +1,14 @@
+grails.servlet.version = "2.5"
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
+
+grails.plugin.location.'at-connectors' = '../AtConnectors'
+grails.plugin.location.'cn-bioportal-connector' = '../CnBioPortalConnector'
+grails.plugin.location.'cn-nif-connector' = '../CnNifConnector'
+
+grails.project.target.level = 1.6
+grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -12,14 +20,7 @@ grails.project.dependency.resolution = {
     legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
     repositories {
         grailsCentral()
-        // uncomment the below to enable remote dependency resolution
-        // from public Maven repositories
-        //mavenLocal()
-        //mavenCentral()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repository.codehaus.org/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -33,5 +34,8 @@ grails.project.dependency.resolution = {
               ":rest-client-builder:1.0.3") {
             export = false
         }
+			  
+		runtime ":hibernate:$grailsVersion"
+		compile ":rest:0.8"
     }
 }
