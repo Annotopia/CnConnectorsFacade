@@ -30,7 +30,6 @@ import org.junit.Test
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
-@TestFor(ConnectorsFacadeService)
 class ConnectorsFacadeServiceTests extends GroovyTestCase {
 
 	def grailsApplication = new org.codehaus.groovy.grails.commons.DefaultGrailsApplication()
@@ -61,9 +60,31 @@ class ConnectorsFacadeServiceTests extends GroovyTestCase {
 	public void testListVocabularies() {
 		log.info 'TEST ------------- testListVocabularies -------------'
 		HashMap parameters = new HashMap();
-		parameters.put(IConnectorsParameters.APY_KEY, configAccessService.getAsString("annotopia.plugins.connector.bioportal.apikey"))
+		parameters.put(IConnectorsParameters.APY_KEY, configAccessService.getAsString("annotopia.plugins.connector.bioportal.apikey"));
 		def vocabularies = connectorsFacadeService.listVocabularies("cnBioPortalConnector", parameters);
 		assertNotNull vocabularies;
+		log.info vocabularies
 	}
-
+	
+	@Test
+	public void testSearchTerm() {
+		log.info 'TEST --------------- testSearchTerm -----------------'
+		HashMap parameters = new HashMap();
+		parameters.put(IConnectorsParameters.APY_KEY, configAccessService.getAsString("annotopia.plugins.connector.bioportal.apikey"));
+		parameters.put(IConnectorsParameters.RETURN_FORMAT, "collectionsontology");
+		def terms = connectorsFacadeService.search("cnBioPortalConnector", "APP", parameters);
+		assertNotNull terms;
+		log.info terms
+	}
+	
+	@Test
+	public void testTextmine() {
+		log.info 'TEST ---------------- testTextmine ------------------'
+		HashMap parameters = new HashMap();
+		parameters.put(IConnectorsParameters.APY_KEY, configAccessService.getAsString("annotopia.plugins.connector.bioportal.apikey"));
+		parameters.put(IConnectorsParameters.RETURN_FORMAT, "collectionsontology");
+		def results = connectorsFacadeService.textmine("cnBioPortalConnector", "http://www.exampl.org/", "APP is bad for your health as it is related to Alzheimer's Disease", parameters);
+		assertNotNull results;
+		log.info results
+	}
 }

@@ -73,6 +73,7 @@ environments {
 			
 			trace  'org.annotopia.grails.connectors',
 				   'grails.app.services.org.annotopia.grails.connectors.services.ConnectorsFacadeService',
+				   'grails.app.services.org.annotopia.grails.connectors.services.ConnectorsManagerService',
 				   'grails.app.services.org.annotopia.grails.connectors.plugin.bioportal.services.BioPortalService',
 				   'grails.app.services.org.annotopia.grails.connectors.plugin.bioportal.services.BioPortalTextMiningService',
 				   'grails.app.services.org.annotopia.grails.connectors.plugin.bioportal.services.JsonBioPortalAnnotatorResultsConverterV0Service',
