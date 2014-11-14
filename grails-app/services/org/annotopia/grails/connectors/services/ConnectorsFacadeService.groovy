@@ -23,6 +23,7 @@ package org.annotopia.grails.connectors.services
 import org.annotopia.grails.connectors.ITermSearchService
 import org.annotopia.grails.connectors.ITextMiningService
 import org.annotopia.grails.connectors.IVocabulariesListService
+import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONObject
 
 /**
@@ -31,6 +32,46 @@ import org.codehaus.groovy.grails.web.json.JSONObject
 class ConnectorsFacadeService {
 
 	def connectorsManagerService;
+	
+	JSONArray listConnectorsInterfaces(HashMap parameters) {
+		def connectorsInterfaces = connectorsManagerService.listConnectorsInterfaces();
+		JSONArray interfaces = new JSONArray();
+		connectorsInterfaces.each { interf ->
+			JSONObject s = new JSONObject();
+			s.put("name", interf.getName());
+			s.put("fullname", interf.getFullname());
+			s.put("title", interf.getTitle());
+			s.put("description", interf.getDescription());
+			interfaces.put(s);
+		}
+		interfaces
+	}
+	
+	JSONArray listConnectors(HashMap parameters) {
+		def connectors = connectorsManagerService.listConnectors();
+		JSONArray cs = new JSONArray();
+		connectors.each {
+			JSONObject c = new JSONObject();
+			c.put("ver", it.ver);
+			c.put("name", it.name);
+			c.put("title", it.title);
+			c.put("description", it.description);
+			c.put("serviceName", it.serviceName);
+			
+			JSONArray services = new JSONArray();
+			it.interfaces.each { interf ->
+				JSONObject s = new JSONObject();
+				s.put("name", interf.getName());
+				s.put("fullname", interf.getFullname());
+				s.put("title", interf.getTitle());
+				s.put("description", interf.getDescription());
+				services.put(s);
+			}	
+			c.put("implements", services);			
+			cs.put(c);
+		}
+		return cs;
+	}
 	
 	/**
 	 * Method that must be implemented by all term search services

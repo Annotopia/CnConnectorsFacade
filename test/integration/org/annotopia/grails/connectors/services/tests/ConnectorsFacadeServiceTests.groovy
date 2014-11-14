@@ -57,6 +57,26 @@ class ConnectorsFacadeServiceTests extends GroovyTestCase {
 	}
 	
 	@Test
+	public void testListConnectors() {
+		log.info 'TEST ------------- testListConnectors ---------------'
+		HashMap parameters = new HashMap();
+		parameters.put(IConnectorsParameters.RETURN_FORMAT, "collectionsontology");
+		def results = connectorsFacadeService.listConnectors(parameters);
+		assertNotNull results;
+		log.info results
+	}
+	
+	@Test
+	public void testListConnectorsInterfaces() {
+		log.info 'TEST -------- testListConnectorsInterfaces ----------'
+		HashMap parameters = new HashMap();
+		parameters.put(IConnectorsParameters.RETURN_FORMAT, "collectionsontology");
+		def results = connectorsFacadeService.listConnectorsInterfaces(parameters);
+		assertNotNull results;
+		log.info results
+	}
+	
+	@Test
 	public void testListVocabularies() {
 		log.info 'TEST ------------- testListVocabularies -------------'
 		HashMap parameters = new HashMap();
