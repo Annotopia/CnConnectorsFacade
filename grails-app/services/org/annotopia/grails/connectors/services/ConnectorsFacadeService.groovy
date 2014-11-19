@@ -34,22 +34,31 @@ class ConnectorsFacadeService {
 	def connectorsManagerService;
 	
 	/**
+	 * Returns the Connector Interfaces details as JSON.
+	 * @param connectorInterfaces	The list of the Connector Interfaces to be serialized
+	 * @return	The JSON representation of Connector Interfaces details.
+	 */
+	private JSONArray interfacesAsJson(def connectorInterfaces) {
+		JSONArray interfacesAsJson = new JSONArray();
+		connectorInterfaces.each { connectorInterface ->
+			JSONObject interfaceAsJson = new JSONObject();
+			interfaceAsJson.put("name", connectorInterface.getName());
+			interfaceAsJson.put("fullname", connectorInterface.getFullname());
+			interfaceAsJson.put("title", connectorInterface.getTitle());
+			interfaceAsJson.put("description", connectorInterface.getDescription());
+			interfacesAsJson.put(interfaceAsJson);
+		}
+		interfacesAsJson;
+	}
+	
+	/**
 	 * Lists all the available connectors interfaces.
 	 * @param parameters	Constraints used to select the items
 	 * @return All the available connector interfaces.
 	 */
 	JSONArray listConnectorsInterfaces(HashMap parameters) {
 		def connectorsInterfaces = connectorsManagerService.listConnectorsInterfaces();
-		JSONArray interfaces = new JSONArray();
-		connectorsInterfaces.each { interf ->
-			JSONObject s = new JSONObject();
-			s.put("name", interf.getName());
-			s.put("fullname", interf.getFullname());
-			s.put("title", interf.getTitle());
-			s.put("description", interf.getDescription());
-			interfaces.put(s);
-		}
-		interfaces
+		interfacesAsJson(connectorsInterfaces);
 	}
 	
 	/**
@@ -68,17 +77,7 @@ class ConnectorsFacadeService {
 			c.put("title", it.title);
 			c.put("description", it.description);
 			c.put("serviceName", it.serviceName);
-			
-			JSONArray services = new JSONArray();
-			it.interfaces.each { interf ->
-				JSONObject s = new JSONObject();
-				s.put("name", interf.getName());
-				s.put("fullname", interf.getFullname());
-				s.put("title", interf.getTitle());
-				s.put("description", interf.getDescription());
-				services.put(s);
-			}	
-			c.put("implements", services);			
+			c.put("implements", interfacesAsJson(it.interfaces));		
 			cs.put(c);
 		}
 		return cs;
