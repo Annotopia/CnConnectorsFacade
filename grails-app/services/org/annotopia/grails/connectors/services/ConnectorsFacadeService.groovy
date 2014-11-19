@@ -33,6 +33,11 @@ class ConnectorsFacadeService {
 
 	def connectorsManagerService;
 	
+	/**
+	 * Lists all the available connectors interfaces.
+	 * @param parameters	Constraints used to select the items
+	 * @return All the available connector interfaces.
+	 */
 	JSONArray listConnectorsInterfaces(HashMap parameters) {
 		def connectorsInterfaces = connectorsManagerService.listConnectorsInterfaces();
 		JSONArray interfaces = new JSONArray();
@@ -47,6 +52,12 @@ class ConnectorsFacadeService {
 		interfaces
 	}
 	
+	/**
+	 * List of available connectors. Constraints to the query can be 
+	 * defined through the parameters.
+	 * @param parameters	The constraints for the query.
+	 * @return The list of available connectors.
+	 */
 	JSONArray listConnectors(HashMap parameters) {
 		def connectors = connectorsManagerService.listConnectors();
 		JSONArray cs = new JSONArray();
